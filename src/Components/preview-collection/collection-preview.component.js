@@ -1,4 +1,4 @@
-import { getByTitle } from '@testing-library/dom';
+
 import React from 'react';
 import './collection-preview.component.styles.scss';
 import CollectionItem from '../collection-item/collection-item.component';
