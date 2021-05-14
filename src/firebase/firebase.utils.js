@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
+import { userRef } from 'react';
 
 
 const config = {
@@ -14,6 +15,44 @@ const config = {
         measurementId: "G-LZF38M7H0T"
       
     
+};
+
+    // making API request
+export const createUserProfileDocument = async (userAuth,additionalData) => {
+    
+        if(!userAuth) return;
+
+        const userRef = firestore.doc(`users/${userAuth.uid}`);
+
+        const snapShot = await userRef.get();
+
+        // if snapshot object dont have the user  then create data
+        if(!snapShot.exists){
+                // snapshot have the data
+                // for creating data we will use documentRef object
+
+                const {displayName , email} = userAuth;
+
+                const createdAt = new Date();
+
+                try{
+                        await userRef.set({
+                                displayName,
+                                email,
+                                createdAt,
+                                ...additionalData
+                        })
+
+                }
+                catch(error){
+
+                        console.log('error creating user',error.message);
+
+                }
+        }
+
+        return userRef;
+
 };
 
 firebase.initializeApp(config);
