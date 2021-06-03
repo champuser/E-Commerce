@@ -1,10 +1,12 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import { connect } from 'react-redux';                           // connect is higher order component that takes an argument and return new souped component
 
 import {ReactComponent as Logo} from '../../assets/crown.svg'; 
 import { auth } from '../../firebase/firebase.utils';
 
 import './header.styles.scss';
+
 
 const Header = ( { currentUser } ) =>{
     return(
@@ -32,4 +34,14 @@ const Header = ( { currentUser } ) =>{
     );
 }
 
-export default Header;
+
+// name of mapStateToProps could be anything but it is standard to redux
+
+
+const mapStateToProps = state => ({
+    // state is the top level root-reducer
+    currentUser:state.user.currentUser
+
+})
+
+export default connect(mapStateToProps)(Header);
